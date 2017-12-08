@@ -1,17 +1,36 @@
 {
-  "name": "naivechain",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "start": "node main.js"
-  },
-  "dependencies": {
-    "body-parser": "^1.15.2",
-    "crypto-js": "^3.1.6",
-    "express": "~4.11.1",
-    "ws": "^1.1.0"
-  },
-  "engines": {
-    "node": ">=4.3.2"
-  }
+	"name": "naivechain",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {
+		"start":
+			"babel src --out-dir dist && concurrently \"export PORT=8080 && node dist/index.js\" \"export PORT=8081 && node dist/index.js\" \"export PORT=8082 && node dist/index.js\"",
+		"test": "jest src",
+		"cloc": "cloc src"
+	},
+	"dependencies": {
+		"socket.io": "^2.0.4"
+	},
+	"engines": {
+		"node": ">=4.3.2"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-jest": "^21.2.0",
+		"babel-plugin-transform-async-generator-functions": "^6.24.1",
+		"babel-plugin-transform-object-rest-spread": "^6.26.0",
+		"babel-plugin-transform-regenerator": "^6.26.0",
+		"babel-preset-env": "^1.6.1",
+		"cloc": "^2.3.2",
+		"concurrently": "^3.5.1",
+		"jest": "^21.2.1",
+		"jest-junit": "^3.3.0"
+	},
+	"jest": {
+		"verbose": true,
+		"transform": {
+			"^.+\\.js?$": "babel-jest"
+		},
+		"testResultsProcessor": "jest-junit"
+	}
 }
