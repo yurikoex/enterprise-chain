@@ -109,9 +109,13 @@ export const handleBlockchainResponse = blocks => {
 			if (isValidChain({ blockchainToValidate: blocks })) blockchain = blocks
 		}
 	}
-	data = getLatestBlock({ blockchain }).data
+	const latest = getLatestBlock({ blockchain })
+	data = latest.data
+
 	//For DEMO only
 	if (whoami === 'localhost:8080') console.log(JSON.stringify(data, null, '\t'))
+	if (whoami === 'localhost:8080')
+		console.log(JSON.stringify(blockchain, null, '\t'))
 }
 
 const startMining = () => {
