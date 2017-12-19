@@ -12,7 +12,7 @@ export const calculateHash = ({ hash }) => ({
 	prev,
 	ts,
 	data,
-	nonce,
+	pow,
 	difficulty
 }) =>
 	hash(
@@ -20,17 +20,17 @@ export const calculateHash = ({ hash }) => ({
 			prev.toString() +
 			ts.toString() +
 			(typeof data === 'object' ? JSON.stringify(data) : data) +
-			nonce.toString() +
+			pow.toString() +
 			difficulty.toString()
 	)
 
 //ensure the format of block
-export const block = ({ index, prev, ts, data, nonce, hash, difficulty }) => ({
+export const block = ({ index, prev, ts, data, pow, hash, difficulty }) => ({
 	index,
 	prev,
 	ts,
 	data,
-	nonce,
+	pow,
 	difficulty,
 	hash
 })
@@ -39,7 +39,7 @@ export const block = ({ index, prev, ts, data, nonce, hash, difficulty }) => ({
 export const getGenesisBlock = ({ block, calculateHash, hash }) => (
 	seed = {
 		ts: 1234567890, //new Date().getTime(),
-		data: [{ message: 'In the beginning...' }]
+		data: [{ type: 'NOOP' }]
 	}
 ) =>
 	block({
@@ -47,14 +47,14 @@ export const getGenesisBlock = ({ block, calculateHash, hash }) => (
 		prev: '0',
 		ts: seed.ts,
 		data: seed.data,
-		nonce: 0,
+		pow: 0,
 		difficulty: 5,
 		hash: calculateHash({
 			index: 0,
 			prev: '0',
 			ts: seed.ts,
 			data: seed.data,
-			nonce: 0,
+			pow: 0,
 			difficulty: 5
 		})
 	})
@@ -80,17 +80,17 @@ export const getLatestBlock = ({ blockchain }) =>
 export const generateNextBlock = ({ calculateHash, block }) => ({
 	index: prevIndex,
 	hash: prev
-}) => ({ data, nonce, difficulty }) => {
+}) => ({ data, pow, difficulty }) => {
 	var index = prevIndex + 1
 	var ts = new Date().getTime()
-	var hash = calculateHash({ index, prev, ts, data, nonce, difficulty })
+	var hash = calculateHash({ index, prev, ts, data, pow, difficulty })
 	return block({
 		index,
 		prev,
 		ts,
 		data,
 		hash,
-		nonce,
+		pow,
 		difficulty
 	})
 }
@@ -142,7 +142,7 @@ export const isValidChain = ({ getGenesisBlock, isValidNewBlock }) => ({
 
 export const mine = ({ hash }) => ({ latestBlock, getLatestBlock }) =>
 	new Promise((resolve, reject) => {
-		let count = Math.floor(Math.random() * 1000000)
+		let count = Math.floor(Math.random() * 10000000)
 		const increment = () =>
 			setTimeout(() => {
 				const newHash = hash(`${latestBlock.hash}${count}`)

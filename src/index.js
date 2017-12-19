@@ -110,12 +110,44 @@ export const handleBlockchainResponse = blocks => {
 		}
 	}
 	const latest = getLatestBlock({ blockchain })
-	data = latest.data
+	data = blockchain.reduce((memo, { data }) => {
+		data.forEach(({ type, key, payload }) => {
+			switch (type) {
+				case 'NOOP':
+					break
+				case 'CREPLACE_HASH':
+					memo[key] = payload
+					break
+				case 'UPSERT_HASH':
+					memo[key] = memo[key] ? { ...memo[key], ...payload } : payload
+					break
+				case 'REMOVE_HASH':
+					memo[key] = undefined
+					break
+				case 'PUSH_LIST':
+					memo[key] =
+						memo[key] && memo[key].constructor === Array
+							? [...memo[key], ...payload]
+							: [...[], ...payload]
+					break
+				case 'REPLACE_LIST':
+					memo[key] = payload
+					break
+				case 'REMOVE_LIST':
+					memo[key] = undefined
+					delete memo[key]
+					break
+				default:
+			}
+		})
+		return memo
+	}, {})
 
 	//For DEMO only
-	if (whoami === 'localhost:8080') console.log(JSON.stringify(data, null, '\t'))
 	if (whoami === 'localhost:8080')
-		console.log(JSON.stringify(blockchain, null, '\t'))
+		console.log(`DATA:`, JSON.stringify(data, null, '\t'))
+	// if (whoami === 'localhost:8080')
+	// 	console.log(JSON.stringify(blockchain, null, '\t'))
 }
 
 const startMining = () => {
@@ -137,16 +169,21 @@ const startMining = () => {
 				blockchain,
 				newBlock: generateNextBlock(latestBlock)({
 					data: [
-						...data,
 						{
-							reward: { peer: whoami },
-							ts: new Date().getTime(),
-							rewardHash: newHash,
-							minedAtBlock: latestBlock.index + 1,
-							mineTime
+							type: 'PUSH_LIST',
+							key: 'tokens',
+							payload: [
+								{
+									reward: { peer: whoami },
+									ts: new Date().getTime(),
+									rewardHash: newHash,
+									minedAtBlock: latestBlock.index + 1,
+									mineTime
+								}
+							]
 						}
 					],
-					nonce: count,
+					pow: count,
 					difficulty: latestBlock.difficulty
 				})
 			})
