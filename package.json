@@ -4,7 +4,7 @@
 	"description": "Demo of enterprise usage of blockchain technology",
 	"scripts": {
 		"start":
-			"babel src --out-dir dist && concurrently \"export PORT=8080 && node dist/index.js\" \"export PORT=8081 && node dist/index.js\" \"export PORT=8082 && node dist/index.js\"",
+			"babel src --out-dir dist && concurrently \"cross-env PORT=8080 node dist/index.js\" \"cross-env PORT=8081 node dist/index.js\" \"cross-env PORT=8082 node dist/index.js\"",
 		"test": "jest src",
 		"cloc": "cloc src"
 	},
@@ -23,6 +23,7 @@
 		"babel-preset-env": "^1.6.1",
 		"cloc": "^2.3.2",
 		"concurrently": "^3.5.1",
+		"cross-env": "^5.1.1",
 		"jest": "^21.2.1",
 		"jest-junit": "^3.3.0"
 	},

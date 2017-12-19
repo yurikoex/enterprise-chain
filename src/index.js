@@ -123,6 +123,7 @@ export const handleBlockchainResponse = blocks => {
 					break
 				case 'REMOVE_HASH':
 					memo[key] = undefined
+					delete memo[key]
 					break
 				case 'PUSH_LIST':
 					memo[key] =
