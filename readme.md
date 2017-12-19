@@ -6,8 +6,8 @@ blockchain that could be used for enterprise technology.
 
 ## Why?
 
-Distributing the verification of transactions and data between a peer network
-could harden security for trusted networks. Bad actors would not only have to
+Distributing the verification of transactions and data within a peer network
+could harden security for trusted devices. Bad actors would not only have to
 compromise 1 system but the entire peer network.
 
 ## Features
