@@ -1,7 +1,7 @@
 {
-	"name": "naivechain",
+	"name": "enterprise-chain",
 	"version": "1.0.0",
-	"description": "",
+	"description": "Demo of enterprise usage of blockchain technology",
 	"scripts": {
 		"start":
 			"babel src --out-dir dist && concurrently \"export PORT=8080 && node dist/index.js\" \"export PORT=8081 && node dist/index.js\" \"export PORT=8082 && node dist/index.js\"",
@@ -32,5 +32,17 @@
 			"^.+\\.js?$": "babel-jest"
 		},
 		"testResultsProcessor": "jest-junit"
-	}
+	},
+	"main": "dist/index.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/yurikoex/enterprise-chain.git"
+	},
+	"keywords": ["blockchain"],
+	"author": "Joshua Lunsford",
+	"license": "Apache-2.0",
+	"bugs": {
+		"url": "https://github.com/yurikoex/enterprise-chain/issues"
+	},
+	"homepage": "https://github.com/yurikoex/enterprise-chain#readme"
 }
