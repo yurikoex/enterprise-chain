@@ -1,4 +1,4 @@
-# Enterprise blockchain
+![logo](logo.png)
 
 This project was forked from
 [naivechain](https://github.com/lhartikk/naivechain). Simple implementation of

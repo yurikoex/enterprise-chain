@@ -1,3 +1,5 @@
+// 00000000000000000enterprise0chain44ee610eec057ea5d4aa86b1c2ef680
+
 import io from 'socket.io'
 import client from 'socket.io-client'
 import { blockchain as blockchainHelpers } from './blockchain'
